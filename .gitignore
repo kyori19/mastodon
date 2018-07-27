@@ -58,3 +58,6 @@ yarn-debug.log
 # Ignore Docker option files
 docker-compose.override.yml
 
+# Ignore sublime file
+*.sublime-project
+*.sublime-workspace
