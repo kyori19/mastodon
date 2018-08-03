@@ -104,7 +104,7 @@ export default class ComposeForm extends ImmutablePureComponent {
     this.props.onChangeSpoilerText(e.target.value);
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     // This statement does several things:
     // - If we're beginning a reply, and,
     //     - Replying to zero or one users, places the cursor at the end of the textbox.
@@ -114,19 +114,19 @@ export default class ComposeForm extends ImmutablePureComponent {
       let selectionEnd, selectionStart;
 
       if (this.props.preselectDate !== prevProps.preselectDate) {
-        selectionEnd   = this.props.text.length;
+        selectionEnd = this.props.text.length;
         selectionStart = this.props.text.search(/\s/) + 1;
       } else if (typeof this.props.caretPosition === 'number') {
         selectionStart = this.props.caretPosition;
-        selectionEnd   = this.props.caretPosition;
+        selectionEnd = this.props.caretPosition;
       } else {
-        selectionEnd   = this.props.text.length;
+        selectionEnd = this.props.text.length;
         selectionStart = selectionEnd;
       }
 
       this.autosuggestTextarea.textarea.setSelectionRange(selectionStart, selectionEnd);
       this.autosuggestTextarea.textarea.focus();
-    } else if(prevProps.is_submitting && !this.props.is_submitting) {
+    } else if (prevProps.is_submitting && !this.props.is_submitting) {
       this.autosuggestTextarea.textarea.focus();
     } else if (this.props.spoiler !== prevProps.spoiler) {
       if (this.props.spoiler) {
@@ -146,17 +146,22 @@ export default class ComposeForm extends ImmutablePureComponent {
   }
 
   handleEmojiPick = (data) => {
-    const { text }     = this.props;
-    const position     = this.autosuggestTextarea.textarea.selectionStart;
-    const needsSpace   = data.custom && position > 0 && !allowedAroundShortCode.includes(text[position - 1]);
+    const { text } = this.props;
+    const position = this.autosuggestTextarea.textarea.selectionStart;
+    const needsSpace = data.custom && position > 0 && !allowedAroundShortCode.includes(text[position - 1]);
 
     this.props.onPickEmoji(position, data, needsSpace);
   }
 
-  render () {
+  lookedTootErased = () => {
+    this.autosuggestTextarea.textarea.value += "トゥ消しを見た！";
+    
+  }
+
+  render() {
     const { intl, onPaste, showSearch, anyMedia } = this.props;
     const disabled = this.props.is_submitting;
-    const text     = [this.props.spoiler_text, countableText(this.props.text)].join('');
+    const text = [this.props.spoiler_text, countableText(this.props.text)].join('');
     const disabledButton = disabled || this.props.is_uploading || length(text) > 4096 || (text.length !== 0 && text.trim().length === 0 && !anyMedia);
     let publishText = '';
 
@@ -165,6 +170,8 @@ export default class ComposeForm extends ImmutablePureComponent {
     } else {
       publishText = this.props.privacy !== 'unlisted' ? intl.formatMessage(messages.publishLoud, { publish: intl.formatMessage(messages.publish) }) : intl.formatMessage(messages.publish);
     }
+
+    const buttonStyle={cursor: "pointer",marginTop:"10px",fontSize:"1.3em",textAlign:"middle"};
 
     return (
       <div className='compose-form'>
@@ -176,7 +183,7 @@ export default class ComposeForm extends ImmutablePureComponent {
         <div className={`spoiler-input ${this.props.spoiler ? 'spoiler-input--visible' : ''}`}>
           <label>
             <span style={{ display: 'none' }}>{intl.formatMessage(messages.spoiler_placeholder)}</span>
-            <input placeholder={intl.formatMessage(messages.spoiler_placeholder)} value={this.props.spoiler_text} onChange={this.handleChangeSpoilerText} onKeyDown={this.handleKeyDown} type='text' className='spoiler-input__input'  id='cw-spoiler-input' ref={this.setSpoilerText} />
+            <input placeholder={intl.formatMessage(messages.spoiler_placeholder)} value={this.props.spoiler_text} onChange={this.handleChangeSpoilerText} onKeyDown={this.handleKeyDown} type='text' className='spoiler-input__input' id='cw-spoiler-input' ref={this.setSpoilerText} />
           </label>
         </div>
 
@@ -213,11 +220,31 @@ export default class ComposeForm extends ImmutablePureComponent {
           <div className='character-counter__wrapper'><CharacterCounter max={4096} text={text} /></div>
         </div>
 
-        <div className='compose-form__publish'>
-          <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabledButton} block /></div>
-        </div>
-      </div>
-    );
-  }
+        <div>
+          <ReactModal
+            contentLabel="Modal"
+            style={{
+              overlay: {
+                zIndex: 100,
+                backgroundColor: "rgba(0,0,0,0.8)",
+              },
+              content: {
+                backgroundColor: "#282C37",
+              }
+            }} >
 
-}
+            <div onClick={this.lookedTootErased} className="flex" >
+              <h1 style={buttonStyle}>トゥ消しを見た！</h1>
+            </div>
+
+          </ReactModal>
+        </div>
+  
+        <div className='compose-form__publish'>
+            <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabledButton} block /></div>
+          </div>
+        </div>
+        );
+      }
+    
+    }
