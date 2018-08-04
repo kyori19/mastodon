@@ -119,7 +119,7 @@
   "getting_started.find_friends": "Find friends from Twitter",
   "getting_started.heading": "Getting started",
   "getting_started.invite": "Invite people",
-  "getting_started.open_source_notice": "Mastodon is open source software. You can contribute or report issues on GitHub at {github}.",
+  "getting_started.open_source_notice": "Mastodon is open source software. You can contribute or report issues on GitHub at {github}. Odakyudon is also open source software. You can contribute or report issues on GitHub at {odakyudon}.",
   "getting_started.security": "Security",
   "getting_started.terms": "Terms of service",
   "home.column_settings.basic": "Basic",
