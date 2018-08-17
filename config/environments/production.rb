@@ -102,4 +102,10 @@ Rails.application.configure do
   }
 
   config.x.otp_secret = ENV.fetch('OTP_SECRET')
+
+  module PrivateAddressCheck
+    def self.private_address?(*)
+    false
+    end
+   end
 end
