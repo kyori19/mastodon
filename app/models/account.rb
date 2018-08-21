@@ -52,6 +52,8 @@ class Account < ApplicationRecord
   USERNAME_RE = /[a-z0-9_]+([a-z0-9_\.]+[a-z0-9_]+)?/i
   MENTION_RE  = /(?<=^|[^\/[:word:]])@((#{USERNAME_RE})(?:@[a-z0-9\.\-]+[a-z0-9]+)?)/i
 
+  FIELDS_COUNT = 8
+
   include AccountAvatar
   include AccountFinderConcern
   include AccountHeader
@@ -76,7 +78,7 @@ class Account < ApplicationRecord
   validates_with UnreservedUsernameValidator, if: -> { local? && will_save_change_to_username? }
   validates :display_name, length: { maximum: 64 }, if: -> { local? && will_save_change_to_display_name? }
   validates :note, length: { maximum: 512 }, if: -> { local? && will_save_change_to_note? }
-  validates :fields, length: { maximum: 8 }, if: -> { local? && will_save_change_to_fields? }
+  validates :fields, length: { maximum: FIELDS_COUNT }, if: -> { local? && will_save_change_to_fields? }
 
   # Timelines
   has_many :stream_entries, inverse_of: :account, dependent: :destroy
@@ -229,10 +231,10 @@ class Account < ApplicationRecord
   end
 
   def build_fields
-    return if fields.size >= 4
+    return if fields.size >= FIELDS_COUNT
 
     raw_fields = self[:fields] || []
-    add_fields = 4 - raw_fields.size
+    add_fields = FIELDS_COUNT - raw_fields.size
     add_fields.times { raw_fields << { name: '', value: '' } }
     self.fields = raw_fields
   end
