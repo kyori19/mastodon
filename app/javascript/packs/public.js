@@ -131,7 +131,7 @@ function main() {
     const name        = document.querySelector('.card .display-name strong');
 
     if (nameCounter) {
-      nameCounter.textContent = 30 - length(target.value);
+      nameCounter.textContent = 64 - length(target.value);
     }
 
     if (name) {
@@ -143,7 +143,7 @@ function main() {
     const noteCounter = document.querySelector('.note-counter');
 
     if (noteCounter) {
-      noteCounter.textContent = 160 - length(target.value);
+      noteCounter.textContent = 512 - length(target.value);
     }
   });
 
