@@ -171,11 +171,7 @@ export default class ComposeForm extends ImmutablePureComponent {
       publishText = this.props.privacy !== 'unlisted' ? intl.formatMessage(messages.publishLoud, { publish: intl.formatMessage(messages.publish) }) : intl.formatMessage(messages.publish);
     }
 
-    const buttonStyle = { cursor: "pointer",
-      marginTop: "10px",
-      fontSize: "1.3em",
-      textAlign: "middle",
-      backgroundColor: "#ef5350" };
+    const buttonStyle = { cursor: "pointer", marginTop: "10px", fontSize: "1.3em", textAlign: "middle" };
 
     return (
       <div className='compose-form'>
@@ -224,14 +220,14 @@ export default class ComposeForm extends ImmutablePureComponent {
           <div className='character-counter__wrapper'><CharacterCounter max={4096} text={text} /></div>
         </div>
 
-        <div className='compose-form__publish'>
-          <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabledButton} block /></div>
-        </div>
-
         <div>
           <div onClick={this.lookedTootErased} className="flex" >
-            <button style={buttonStyle} className="button">トゥ消しを見た！</button>
+            <h1 style={buttonStyle}>トゥ消しを見た！</h1>
           </div>
+        </div>
+
+        <div className='compose-form__publish'>
+          <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabledButton} block /></div>
         </div>
       </div>
     );
