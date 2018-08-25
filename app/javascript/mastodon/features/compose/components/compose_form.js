@@ -155,7 +155,7 @@ export default class ComposeForm extends ImmutablePureComponent {
 
   lookedTootErased = () => {
     this.autosuggestTextarea.textarea.value += "トゥ消しを見た！";
-
+    
   }
 
   render() {
@@ -171,7 +171,7 @@ export default class ComposeForm extends ImmutablePureComponent {
       publishText = this.props.privacy !== 'unlisted' ? intl.formatMessage(messages.publishLoud, { publish: intl.formatMessage(messages.publish) }) : intl.formatMessage(messages.publish);
     }
 
-    const buttonStyle = { cursor: "pointer", marginTop: "10px", fontSize: "1.3em", textAlign: "middle" };
+    const buttonStyle={cursor: "pointer",marginTop:"10px",fontSize:"1.3em",textAlign:"middle"};
 
     return (
       <div className='compose-form'>
@@ -221,16 +221,30 @@ export default class ComposeForm extends ImmutablePureComponent {
         </div>
 
         <div>
-          <div onClick={this.lookedTootErased} className="flex" >
-            <h1 style={buttonStyle}>トゥ消しを見た！</h1>
+          <ReactModal
+            contentLabel="Modal"
+            style={{
+              overlay: {
+                zIndex: 100,
+                backgroundColor: "rgba(0,0,0,0.8)",
+              },
+              content: {
+                backgroundColor: "#282C37",
+              }
+            }} >
+
+            <div onClick={this.lookedTootErased} className="flex" >
+              <h1 style={buttonStyle}>トゥ消しを見た！</h1>
+            </div>
+
+          </ReactModal>
+        </div>
+  
+        <div className='compose-form__publish'>
+            <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabledButton} block /></div>
           </div>
         </div>
-
-        <div className='compose-form__publish'>
-          <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabledButton} block /></div>
-        </div>
-      </div>
-    );
-  }
-
-}
+        );
+      }
+    
+    }
