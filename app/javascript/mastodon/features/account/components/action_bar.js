@@ -147,17 +147,17 @@ export default class ActionBar extends React.PureComponent {
 
         <div className='account__action-bar'>
           <div className='account__action-bar-links'>
-            <Link className='account__action-bar__tab' to={`/accounts/${account.get('id')}`} title={intl.formatNumber(account.get('statuses_count'))}>
+            <Link className='account__action-bar__tab' to={intl.formatNumber(account.get('statuses_count'))} title={`/accounts/${account.get('id')}`}>
               <FormattedMessage id='account.posts' defaultMessage='Toots' />
               <strong>{shortNumberFormat(account.get('statuses_count'))}</strong>
             </Link>
 
-            <Link className='account__action-bar__tab' to={`/accounts/${account.get('id')}/following`} title={intl.formatNumber(account.get('following_count'))}>
+            <Link className='account__action-bar__tab' to={intl.formatNumber(account.get('following_count'))} title={`/accounts/${account.get('id')}/following`}>
               <FormattedMessage id='account.follows' defaultMessage='Follows' />
               <strong>{shortNumberFormat(account.get('following_count'))}</strong>
             </Link>
 
-            <Link className='account__action-bar__tab' to={`/accounts/${account.get('id')}/followers`} title={intl.formatNumber(account.get('followers_count'))}>
+            <Link className='account__action-bar__tab' to={intl.formatNumber(account.get('followers_count'))} title={`/accounts/${account.get('id')}/followers`}>
               <FormattedMessage id='account.followers' defaultMessage='Followers' />
               <strong>{shortNumberFormat(account.get('followers_count'))}</strong>
             </Link>
