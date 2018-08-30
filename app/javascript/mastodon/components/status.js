@@ -34,7 +34,7 @@ export default class Status extends ImmutablePureComponent {
     onDirect: PropTypes.func,
     onMention: PropTypes.func,
     onPin: PropTypes.func,
-    onOpenQuote: PropTypes.func,
+    onOpenStatus: PropTypes.func,
     onOpenMedia: PropTypes.func,
     onOpenVideo: PropTypes.func,
     onBlock: PropTypes.func,
@@ -321,7 +321,7 @@ export default class Status extends ImmutablePureComponent {
               </a>
             </div>
 
-            <StatusContent status={status} onClick={this.handleClick} expanded={!status.get('hidden')} onExpandedToggle={this.handleExpandedToggle} onOpenQuote={this.props.onOpenQuote} />
+            <StatusContent status={status} onClick={this.handleClick} expanded={!status.get('hidden')} onExpandedToggle={this.handleExpandedToggle} onOpenStatus={this.props.onOpenStatus} />
 
             {quote}
             {media}
