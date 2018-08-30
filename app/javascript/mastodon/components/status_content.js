@@ -32,7 +32,7 @@ export default class StatusContent extends React.PureComponent {
 
     const links = node.querySelectorAll('a');
     const QuoteUrlFormat = /(?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+\/@[\w-_]+\/\w+/;
-    const quote = node.innerText.match(new RegExp(`\\[${QuoteUrlFormat.source}\\]`));
+    const quote = node.innerText.match(new RegExp(`${QuoteUrlFormat.source}`));
 
     for (var i = 0; i < links.length; ++i) {
       let link = links[i];
