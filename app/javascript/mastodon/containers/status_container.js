@@ -121,7 +121,7 @@ const mapDispatchToProps = (dispatch, { intl }) => ({
     dispatch(mentionCompose(account, router));
   },
 
-  onOpenQuote (quoteUrl, router) {
+  onOpenStatus (quoteUrl, router) {
     dispatch(fetchQuote(quoteUrl, router));
   },
 
