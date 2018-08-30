@@ -52,6 +52,7 @@ export default class Status extends ImmutablePureComponent {
     onDirect: PropTypes.func,
     onMention: PropTypes.func,
     onPin: PropTypes.func,
+    onOpenQuote: PropTypes.func,
     onOpenMedia: PropTypes.func,
     onOpenVideo: PropTypes.func,
     onBlock: PropTypes.func,
@@ -263,7 +264,7 @@ export default class Status extends ImmutablePureComponent {
       } else {
         media = (
           <Bundle fetchComponent={MediaGallery} loading={this.renderLoadingMediaGallery}>
-            {Component => <Component media={status.get('media_attachments')} sensitive={status.get('sensitive')} height={110} onOpenMedia={this.props.onOpenMedia} />}
+            {Component => <Component media={status.get('media_attachments')} sensitive={status.get('sensitive')} height={110} onOpenMedia={this.props.onOpenMedia} onOpenQuote={this.props.onOpenQuote} />}
           </Bundle>
         );
       }
