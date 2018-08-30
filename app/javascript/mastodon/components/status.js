@@ -243,7 +243,7 @@ export default class Status extends ImmutablePureComponent {
       } else {
         media = (
           <Bundle fetchComponent={MediaGallery} loading={this.renderLoadingMediaGallery}>
-            {Component => <Component media={status.get('media_attachments')} sensitive={status.get('sensitive')} height={110} onOpenMedia={this.props.onOpenMedia} onOpenQuote={this.props.onOpenQuote} />}
+            {Component => <Component media={status.get('media_attachments')} sensitive={status.get('sensitive')} height={110} onOpenMedia={this.props.onOpenMedia} onOpenStatus={this.props.onOpenStatus} />}
           </Bundle>
         );
       }
