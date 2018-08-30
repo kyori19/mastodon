@@ -5,7 +5,6 @@ import { isRtl } from '../rtl';
 import { FormattedMessage } from 'react-intl';
 import Permalink from './permalink';
 import classnames from 'classnames';
-import api from '../api';
 
 export default class StatusContent extends React.PureComponent {
 
@@ -24,7 +23,7 @@ export default class StatusContent extends React.PureComponent {
     hidden: true,
   };
 
-  _updateStatusLinks() {
+  _updateStatusLinks () {
     const node = this.node;
 
     if (!node) {
@@ -32,8 +31,8 @@ export default class StatusContent extends React.PureComponent {
     }
 
     const links = node.querySelectorAll('a');
-    const statusLinksRegex = [/https:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+\/users\/[_a-zA-Z0-9]+\/statuses\/[0-9]+/, // https://odakyu.app/users/admin/statuses/100445425814201359
-      /https:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+\/@[_a-zA-Z0-9]+\/[0-9]+/]; // https://odakyu.app/@admin/100445425814201359
+    const StatusUrlFormat = /(?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+\/@[\w-_]+\/\w+/;
+    const statuses = node.innerText.match(new RegExp(`${StatusUrlFormat.source}`));
 
     for (var i = 0; i < links.length; ++i) {
       let link = links[i];
@@ -42,14 +41,8 @@ export default class StatusContent extends React.PureComponent {
       }
       link.classList.add('status-link');
 
-      let status;
-      for (var c = 0; c < statusLinksRegex; ++c) {
-        let regex = statusLinksRegex[c];
-        status = link.href.match(new RegExp(regex));
-      }
-
-      if (status != undefined) {
-        link.addEventListener("click", this.onStatusClick.bind(this, link.href), false);
+      if (statuses && link.href.match(StatusUrlFormat)) {
+        link.addEventListener('click', this.onStatusUrlClick.bind(this, link.href), false);
       }
 
       let mention = this.props.status.get('mentions').find(item => link.href === item.get('url'));
@@ -68,24 +61,12 @@ export default class StatusContent extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this._updateStatusLinks();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     this._updateStatusLinks();
-  }
-
-  onStatusClick = (url, e) => {
-    fetch('/api/v1/search?q=' + encodeURIComponent(url))
-      .then(res => res.json())
-      .then(json => {
-        const statuses = json.statuses;
-        if (statuses.length == 1) {
-          const id = statuses[0].id;
-          this.context.router.history.push(`/statuses/${id}`);
-        }
-      });
   }
 
   onMentionClick = (mention, e) => {
@@ -104,6 +85,13 @@ export default class StatusContent extends React.PureComponent {
     }
   }
 
+  onStatusUrlClick = (quoteUrl, e) => {
+    if (this.context.router && e.button === 0) {
+      e.preventDefault();
+      this.props.onOpenStatus(quoteUrl, this.context.router.history);
+    }
+  }
+
   handleMouseDown = (e) => {
     this.startXY = [e.clientX, e.clientY];
   }
@@ -113,8 +101,8 @@ export default class StatusContent extends React.PureComponent {
       return;
     }
 
-    const [startX, startY] = this.startXY;
-    const [deltaX, deltaY] = [Math.abs(e.clientX - startX), Math.abs(e.clientY - startY)];
+    const [ startX, startY ] = this.startXY;
+    const [ deltaX, deltaY ] = [Math.abs(e.clientX - startX), Math.abs(e.clientY - startY)];
 
     if (e.target.localName === 'button' || e.target.localName === 'a' || (e.target.parentNode && (e.target.parentNode.localName === 'button' || e.target.parentNode.localName === 'a'))) {
       return;
@@ -142,7 +130,7 @@ export default class StatusContent extends React.PureComponent {
     this.node = c;
   }
 
-  render() {
+  render () {
     const { status } = this.props;
 
     if (status.get('content').length === 0) {
