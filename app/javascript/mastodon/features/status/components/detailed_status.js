@@ -57,6 +57,10 @@ export default class DetailedStatus extends ImmutablePureComponent {
     this.context.router.history.push(`/statuses/${status.getIn(['quote', 'id'])}`);
   }
 
+  handleStatusClick = (quoteUrl, router) => {
+    this.props.onOpenStatus(quoteUrl, router);
+  }
+
   render () {
     const status = this.props.status.get('reblog') ? this.props.status.get('reblog') : this.props.status;
 
@@ -155,7 +159,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
           <DisplayName account={status.get('account')} />
         </a>
 
-        <StatusContent status={status} expanded={!status.get('hidden')} onExpandedToggle={this.handleExpandedToggle} onOpenStatus={this.props.onOpenStatus} />
+        <StatusContent status={status} expanded={!status.get('hidden')} onExpandedToggle={this.handleExpandedToggle} onOpenStatus={this.handleStatusClick} />
 
         {quote}
         {media}
