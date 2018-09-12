@@ -2,7 +2,7 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import DropdownMenuContainer from '../../../containers/dropdown_menu_container';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import { me } from '../../../initial_state';
 import { shortNumberFormat } from '../../../utils/numbers';
@@ -147,20 +147,20 @@ export default class ActionBar extends React.PureComponent {
 
         <div className='account__action-bar'>
           <div className='account__action-bar-links'>
-            <Link className='account__action-bar__tab' to={`/accounts/${account.get('id')}`}>
+            <NavLink className='account__action-bar__tab' to={`/accounts/${account.get('id')}`}>
               <FormattedMessage id='account.posts' defaultMessage='Toots' />
               <strong>{intl.formatNumber(account.get('statuses_count'))}</strong>
-            </Link>
+            </NavLink>
 
-            <Link className='account__action-bar__tab' to={`/accounts/${account.get('id')}/following`}>
+            <NavLink className='account__action-bar__tab' to={`/accounts/${account.get('id')}/following`}>
               <FormattedMessage id='account.follows' defaultMessage='Follows' />
               <strong>{intl.formatNumber(account.get('following_count'))}</strong>
-            </Link>
+            </NavLink>
 
-            <Link className='account__action-bar__tab' to={`/accounts/${account.get('id')}/followers`}>
+            <NavLink className='account__action-bar__tab' to={`/accounts/${account.get('id')}/followers`}>
               <FormattedMessage id='account.followers' defaultMessage='Followers' />
               <strong>{intl.formatNumber(account.get('followers_count'))}</strong>
-            </Link>
+            </NavLink>
           </div>
 
           <div className='account__action-bar-dropdown'>
